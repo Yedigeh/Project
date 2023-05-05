@@ -1,0 +1,61 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Чек{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    {% if messages %} 
+      {% for msg in messages %}
+       <div class="alert alert-danger" role="alert">
+          {{msg}}
+         </div>
+      {% endfor %}
+    {% endif %}
+  <div class="row mt-5">
+    <div class="col-sm-6">
+    <h4>Чек</h4>
+    <hr>
+    {% for item in cart_item %}
+      <div class="card mb-2">
+        <div class="card-body">
+            <h5>Лекарства: {{item.product.title}}</h5>
+            <p>Количество: {{item.quantity}} штук</p>
+            <p class="fw-bold">Цена: {{item.product.price}}&#8376</p>
+        </div>
+      </div>
+    {% endfor %}  
+    <p class="fw-bold">Общая Сумма + 400&#8376={{totalamount}}&#8376</p>
+ </div>
+ <div class="col-sm-4 offset-sm-1">
+    <h4>Выберите Адресс Доставки</h4>
+    <hr>
+    <form method="post" id="myform">
+        {% csrf_token %}
+        {% for ad in add %}
+        <div class="card">
+        <div class="card-body">
+        <h5>{{ad.name}}</h5>
+        <p>Номер Телефона :{{ad.phone}}</p>
+        <p>{{ad.city}}-{{ad.zipcode}}</p>
+        </div>   
+        </div>
+        <div class="form-check mt-2 mb-5">
+            <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+            <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">Адресс:{{forloop.counter}}</label>
+        </div>
+        {% endfor %}
+        <div class="form-check mb-3">
+            <label for="totalamount" class="form-label">Общая Сумма</label>
+            <input type="number" class="form-control" name="totalamount" value="{{totalamount}}" readonly>
+        </div>
+        <div class="text-end">
+              <a href="{% url 'showcart' %}" style="width: 170px;" class="btn btn-primary shadow px-5 py-2">Продолжить</a>
+              <a href="{% url 'check' %}" style="width: 170px;" class="btn btn-dark shadow py-2">Заказать</a>
+              
+        </div>
+        <br><br>
+     </form>
+    </div>
+  </div>  
+</div> 
+{% endblock main-content %}

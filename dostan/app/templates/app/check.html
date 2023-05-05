@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Чек{% endblock title %}
+
+{% block main-content %}
+<html>
+<head>
+    <title>Чек</title>
+</head>
+<body>
+    <h1>Чек</h1>
+    <p>Клиент: {{ user.username}}</p>
+    
+    <hr>
+    <p>Общая стоимость: {{ totalamount}}&#8376 </p>
+    <img src="{% static "app/images/kaspi.png" %}" width="280" height="280" />
+</body>
+</html>
+{% endblock main-content %}
